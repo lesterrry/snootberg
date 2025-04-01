@@ -1,9 +1,9 @@
 <?php
 
-$collection = '/var/www/html/snootberg/collection';
+$collection = '/var/www/ssr/snootberg/collection';
 $formats = '*.jpg,*.png,*.gif';
 $priorities = array(
-    'fox1.jpg' => 30,
+    'fox1.jpg' => 10,
 );
 
 // ####################
@@ -19,7 +19,7 @@ function globalize($fileName, $fullPath) {
 function getWeightedRandomSample($weights, $arr) {
     $totalWeightDefined = array_sum($weights);
     $undefinedWeight = ($totalWeightDefined <= 100) ? (100 - $totalWeightDefined) / (count($arr) - count($weights)) : 0;
-    
+
     foreach($arr as $i) {
         if(!isset($weights[$i])) $weights[$i] = $undefinedWeight;
     }
