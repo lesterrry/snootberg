@@ -1,6 +1,6 @@
 <?php
 
-$collection = '/var/www/ssr/snootberg/collection';
+$collection = __DIR__ . '/collection';
 $formats = '*.jpg,*.png,*.gif';
 $priorities = array(
     'fox1.jpg' => 10,
