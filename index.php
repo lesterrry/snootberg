@@ -1,7 +1,7 @@
 <?php
 
 $collection = __DIR__ . '/collection';
-$formats = '*.jpg,*.png,*.gif';
+$formats = '*.jpg,*.jpeg,*.JPG*.png,*.gif';
 $priorities = array(
     'fox1.jpg' => 10,
 );
