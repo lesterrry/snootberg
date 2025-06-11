@@ -37,10 +37,24 @@ function getWeightedRandomSample($weights, $arr) {
 $isCli = PHP_SAPI === 'cli';
 $images = glob("$collection/{{$formats}}", GLOB_BRACE);
 
-$image = globalize(
-    getWeightedRandomSample($priorities, $images),
-    $collection
-);
+if ($isCli) {
+    echo("Choosing from:");
+    print_r($images);
+    echo("\n");
+}
+
+if (count($priorities) == 0) {
+    if ($isCli) echo("Going the easy way\n");
+
+    $image = $images[array_rand($images)];
+} else {
+    if ($isCli) echo("Going the hard way\n");
+
+    $image = globalize(
+        getWeightedRandomSample($priorities, $images),
+        $collection
+    );
+}
 
 if ($isCli) {
     echo("Chosen $image\n");
