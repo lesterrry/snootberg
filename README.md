@@ -20,11 +20,19 @@ the default directory.
 
 ## Development commands
 
-Requires `just`, Python 3.8+, PHP CS Fixer, and ImageMagick. On macOS:
+Requires `just` and Python 3.9+. PHP formatting also requires PHP CS Fixer. On macOS:
 
 ```sh
-brew install just python php-cs-fixer imagemagick
+brew install just python php-cs-fixer
 ```
+
+On Ubuntu 24.04+ (compression and local configuration):
+
+```sh
+sudo apt update && sudo apt install -y just python3-venv
+```
+
+For PHP formatting, also install [PHP CS Fixer](https://cs.symfony.com/doc/installation.html).
 
 ```sh
 just format               # Format PHP using PSR-12
@@ -35,6 +43,9 @@ just compress /srv/images # Or choose a directory, including an external collect
 ```
 
 The `init` and `compress` recipes call Python scripts in `tools/`.
+On its first run, `just compress` automatically downloads Pillow and the HEIC
+decoder into a private environment in `tools/.venv-compress` (internet required).
+Later runs work offline. ImageMagick and system image codecs are not needed.
 
 GitHub Actions runs `just test` on every push and pull request.
 If the check fails, run `just format` locally and include the formatting changes.
@@ -44,5 +55,9 @@ Image processing replaces files larger than 1 MB (1,000,000 bytes) with JPGs
 of at most 1 MB in the same directory. Smaller files are left unchanged.
 It skips `.git` and symbolic links, preserves originals if conversion fails,
 and refuses to overwrite another image with the same JPG filename.
+Failed conversions are reported and skipped so the batch can finish; the command
+exits with status 1 if any conversions failed.
 Conversion uses the first frame of animated images, a white background for
 transparency, and removes metadata after applying orientation.
+It lowers JPEG quality first and reduces image dimensions only when needed to
+meet the 1 MB limit.

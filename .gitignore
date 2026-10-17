@@ -1,2 +1,4 @@
 .DS_Store
 /config.local.php
+/tools/.venv-compress/
+__pycache__/
